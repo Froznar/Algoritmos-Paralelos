@@ -17,7 +17,7 @@ void p_vector_int(vector<int> V);
 
 //-------------------------TRAPEZ------------------------
 double s_Trap_f(double x);
-double s_Trap(double a, double b, double n, double& sum_global);
+void s_Trap(double a, double b, double n, double& sum_global);
 void f_Trap_Rule();
 //********************************************************
 

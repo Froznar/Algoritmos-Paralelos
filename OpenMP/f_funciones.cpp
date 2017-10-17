@@ -115,7 +115,7 @@ void f_Odd_even(int modo)
     {
         v_array.push_back(rand()%n);
     }
-
+    double start = omp_get_wtime();
     if(modo == 1)
     {
         for(int phase=0;phase<n;phase++)
@@ -170,8 +170,17 @@ void f_Odd_even(int modo)
 
 
     }
-    p_vector_int(v_array);
+    cout<<"tiempo: "<<omp_get_wtime()-start;
+    //p_vector_int(v_array);
 }
+/* TABLA
+ * Cantidad de elementos 10000
+ * ----------------------------
+ * Threads          |   1   |   2   |   3   |   4   |
+ * dos parallel for |0.99003|0.5339 |0.56688|0.54004|
+ * dos for          |1.00333|0.5206 |0.60143|0.49173|
+*/
+
 //********************************************************
 //********************************************************
 
@@ -233,15 +242,15 @@ void f_Matrix_vector()
     }
 
     int i,j;
-    START;
+    double start = omp_get_wtime();
     #pragma omp parallel for num_threads(thread_count) default(none) private(i,j) shared(matrix,line_x,line_y,m,n)
     for(i=0;i<m;i++)
     {
         for(j=0;j<n;j++)
             line_y[i]+=matrix[i][j]*line_x[j];
     }
-    STOP;
-    PRINTTIME;
+
+    cout<<"tiempo: "<<omp_get_wtime()-start;
     //s_print_vector(line_y);
 }
 
@@ -249,9 +258,9 @@ void f_Matrix_vector()
  * threads  | Dimenciones
  *          | 8000000*8 | 8000*8000 | 8*8000
  *          | Tiempo    | Tiempo    | Tiempo
- *  1       |   1.005   |   0.972   |  0.004
- *  2       |   1.050   |   1.104   |  0.001
- *  4       |   1.784   |   1.719   |  0.019
+ *  1       |   1.00128 |   0.97796 |  0.00135
+ *  2       |   0.52317 |   0.50454 |  0.00211
+ *  4       |   0.49502 |   0.48696 |  0.47926
 
 */
 //********************************************************
